@@ -1,0 +1,10 @@
+{
+    "Messages": [
+      {
+        "MessageId": "3274fbc4-3fb2-4e83-b3ef-5fbde311757b",
+        "ReceiptHandle": "ZTNjZDljYWUtOTQwMi00MDY2LWFjNmYtOGZjZmUwNDk2NGU4IGFybjphd3M6c3FzOnVzLWVhc3QtMTowMDAwMDAwMDAwMDA6bG9naW4tcXVldWUgMzI3NGZiYzQtM2ZiMi00ZTgzLWIzZWYtNWZiZGUzMTE3NTdiIDE2NzMxOTczNjUuMTkzODUyNw==",
+        "MD5OfBody": "e4f1de8c099c0acd7cb05ba9e790ac02",
+        "Body": "{\"user_id\": \"424cdd21-063a-43a7-b91b-7ca1a833afae\", \"app_version\": \"2.3.0\", \"device_type\": \"android\", \"ip\": \"199.172.111.135\", \"locale\": \"RU\", \"device_id\": \"593-47-5928\"}"
+      }
+    ]
+  }
