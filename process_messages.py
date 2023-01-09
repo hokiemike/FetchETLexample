@@ -16,13 +16,23 @@ def extract_message():
         MaxNumberOfMessages=1,
         WaitTimeSeconds=10,
     )
+    messages = response.get('Messages', [])
+    message = None
+    if len(messages) > 0:
+        message = messages[0]
+        receipt_handle = message["ReceiptHandle"]
 
-    print(f"Number of messages received: {len(response.get('Messages', []))}")
-    return response.get("Messages", [])
+        # Delete received message from queue
+        sqs_client.delete_message(
+            QueueUrl=QUEUE_URL,
+            ReceiptHandle=receipt_handle
+        )
+        print('Received and deleted message: %s' % message)
+    
+    return message
 
 #transform the queue item into a row
 def transform_message(message):
-        print(f"Receipt Handle: {message['ReceiptHandle']}")
         message_body = json.loads(message["Body"])
         print(f"Message body: {message_body}")
         return OutputRow(message_body)
@@ -65,9 +75,13 @@ def load_message_into_db(row):
 
 
 def main():
-    for msg in extract_message():
-        row = transform_message(msg)
-        load_message_into_db(row)
+        msg = extract_message()
+        while msg is not None:
+            row = transform_message(msg)
+            if (row.validRow):
+                load_message_into_db(row)
+            msg = extract_message()
+
 
 
 if __name__ == "__main__":

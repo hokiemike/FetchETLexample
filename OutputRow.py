@@ -1,14 +1,24 @@
 class OutputRow:
     def __init__(self, msg_body):
-        self.user_id = msg_body["user_id"]
-        self.device_type = msg_body["device_type"]
-        
-        # TODO mask these 2 fields
-        self.device_id = msg_body["device_id"]
-        self.ip = msg_body["ip"]
+        if ("user_id" in msg_body and 
+           "device_type" in msg_body and 
+           "device_id" in msg_body and 
+           "ip" in msg_body and 
+           "locale" in msg_body and 
+           "app_version" in msg_body):
 
-        self.locale = msg_body["locale"]
-        self.app_version = version_to_int(msg_body["app_version"])
+            self.validRow = True
+            self.user_id = msg_body["user_id"]
+            self.device_type = msg_body["device_type"]
+            
+            # TODO mask these 2 fields
+            self.device_id = msg_body["device_id"]
+            self.ip = msg_body["ip"]
+
+            self.locale = msg_body["locale"]
+            self.app_version = version_to_int(msg_body["app_version"])
+        else:
+            self.validRow = False
     
     def __str__(self):
         return f"user_id={self.user_id}, device_type={self.device_type}, device_id={self.device_id}, ip={self.ip}, locale={self.locale}, app_version={self.app_version})"
