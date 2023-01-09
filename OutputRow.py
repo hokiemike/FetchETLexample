@@ -1,4 +1,4 @@
-import hashlib
+
 from ff3 import FF3Cipher
 
 class OutputRow:
@@ -13,12 +13,12 @@ class OutputRow:
             self.validRow = True
             self.user_id = msg_body["user_id"]
             self.device_type = msg_body["device_type"]
+            self.locale = msg_body["locale"]
             
-            # TODO mask these 2 fields
+            # mask these 2 fields using ff3 encryption
             self.device_id = encryptMask(msg_body["device_id"])
             self.ip = encryptMask(msg_body["ip"])
-
-            self.locale = msg_body["locale"]
+            
             #need to convert the app_version to an integer - strip out the . and pad with 0's
             self.app_version = version_to_int(msg_body["app_version"])
         else:
@@ -31,8 +31,7 @@ class OutputRow:
 # this method of masking encrypts the value.  can be decrypted with the key later
 # this is using FF3 which does "format presering encryption" to keep the length of the value the same
 def encryptMask(value):
-    """Returns a masked version of a string.
-    The masking function is deterministic, so the same input will always produce the same output.
+    """Returns a masked version of a string using format preserving encryption
     """
     # NOTE:ideally, this key should be stored in a secure location not in the code
     key = "b83302516f1278a1e95200e542189656"
@@ -42,16 +41,6 @@ def encryptMask(value):
     ciphertext = c.encrypt(value)
     print(f"ciphertext: {ciphertext}")
     return ciphertext
-
-# this method of masking uses a hash function to obscure the value. this is one-way.  can never retrieve the value again
-def hashMask(value):
-    """Returns a masked version of a string.
-    The masking function is deterministic, so the same input will always produce the same output.
-    """
-    # Use a hash function to obscure the original value of the device_id
-    hash_object = hashlib.sha256(value.encode())
-    masked_value = hash_object.hexdigest()
-    return masked_value
 
 
 def pad_to_two_digits(val):
