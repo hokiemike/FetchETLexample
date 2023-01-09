@@ -7,6 +7,8 @@ from OutputRow import OutputRow
 
 QUEUE_URL = "http://localhost:4566/000000000000/login-queue"
 
+
+
 #get an item from the queue
 def extract_message():
     session = localstack_client.session.Session()
@@ -23,10 +25,10 @@ def extract_message():
         receipt_handle = message["ReceiptHandle"]
 
         # Delete received message from queue
-        sqs_client.delete_message(
-            QueueUrl=QUEUE_URL,
-            ReceiptHandle=receipt_handle
-        )
+        #sqs_client.delete_message(
+        #    QueueUrl=QUEUE_URL,
+        #    ReceiptHandle=receipt_handle
+        #)
         print('Received and deleted message: %s' % message)
     
     return message
