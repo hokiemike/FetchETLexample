@@ -8,7 +8,6 @@ from OutputRow import OutputRow
 QUEUE_URL = "http://localhost:4566/000000000000/login-queue"
 
 
-
 #get an item from the queue
 def extract_message():
     session = localstack_client.session.Session()
